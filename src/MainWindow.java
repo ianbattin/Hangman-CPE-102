@@ -130,10 +130,12 @@ public class MainWindow extends JFrame {
 					}
 					
 				}
+				//Ian did this(Can't guess letter you've already guessed)
 				else if(lettersGuessed.contains(text))
 				{
 					status.setText("You already guessed that!");
 				}
+				//Ian did this(Allowing whole word to be guessed)
 				else if(text.equals(word))
 				{
 					String actualVisible = "";
@@ -155,7 +157,7 @@ public class MainWindow extends JFrame {
 					input.setEnabled(false);
 				}
 				else
-					status.setText("Invalid Input");
+					status.setText("Invalid Input - Try again!");
 				
 				input.setText("");
 			}
