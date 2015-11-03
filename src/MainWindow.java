@@ -25,6 +25,11 @@ public class MainWindow extends JFrame {
 
 	public static void main(String[] args) 
 	{
+		new MainWindow(chooseRandomWord());
+	}
+	
+	public static String chooseRandomWord()
+	{
 		//Ian did this part (Guessing every word from English language)
 		int line = (int) (Math.random()*109583);
 		String randomWord = "";
@@ -38,8 +43,7 @@ public class MainWindow extends JFrame {
 		{
 			e.printStackTrace();
 		}
-		
-		new MainWindow(randomWord);
+		return randomWord;
 	}
 	
 	public MainWindow(String toGuess) {
