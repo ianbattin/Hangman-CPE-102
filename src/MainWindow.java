@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -20,9 +21,11 @@ public class MainWindow extends JFrame {
 	private String word;
 	private String visible;
 	private Scanner sc;
+	private ArrayList<String> lettersGuessed;
 
 	public static void main(String[] args) 
 	{
+		//Ian did this part (Guessing every word from English language)
 		int line = (int) (Math.random()*109583);
 		String randomWord = "";
 		try {
@@ -40,6 +43,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	public MainWindow(String toGuess) {
+		lettersGuessed = new ArrayList<String>();
 		remainingGuesses = 10;
 		wrongGuesses = "";
 		word = toGuess;
@@ -78,16 +82,17 @@ public class MainWindow extends JFrame {
 				
 				String text = input.getText();
 				
-				if(text.length()  == 1 && text.matches("[a-z]")) {
+				if(text.length()  == 1 && text.matches("[a-z]") && !lettersGuessed.contains(text)) {
 					
 					boolean guessFound = false;
+					lettersGuessed.add(text);
 					
-					for(int i = 0; i < word.length(); ++i) {
+					for(int i = 0; i < word.length(); i++) {
 						if(text.charAt(0) == word.charAt(i)) {
 							guessFound = true;
 							
 							String newVisible = "";
-							for(int j = 0; j < visible.length(); ++j) {
+							for(int j = 0; j < visible.length(); j++) {
 								if(j == (i*2)) {
 									newVisible += word.charAt(i);
 								}
@@ -101,7 +106,7 @@ public class MainWindow extends JFrame {
 					}
 					
 					if(!guessFound) {
-						if(--remainingGuesses >= 0) {
+						if(--remainingGuesses >= 1) {
 							status.setText("You have "+remainingGuesses+" guesses remaining");
 							wrongGuesses += text+" ";
 							wrong.setText("Wrong guesses so far: "+wrongGuesses);
@@ -125,9 +130,32 @@ public class MainWindow extends JFrame {
 					}
 					
 				}
-				else {
-					System.out.println("Invalid input!");
+				else if(lettersGuessed.contains(text))
+				{
+					status.setText("You already guessed that!");
 				}
+				else if(text.equals(word))
+				{
+					String actualVisible = "";
+					for(int i = 0; i < visible.length(); i+=2) {
+						actualVisible += visible.charAt(i);
+					}
+					visibleLabel.setText(text);
+					status.setText("Congratulations, you have won!");
+					input.setEnabled(false);
+				}
+				else if(text.length() == word.length())
+				{
+					for(int i = 0; i < remainingGuesses; i++)
+					{
+						hf.set();
+					}
+					remainingGuesses = 0;
+					status.setText("Wrong guess - You lose. The word was " + word);
+					input.setEnabled(false);
+				}
+				else
+					status.setText("Invalid Input");
 				
 				input.setText("");
 			}
