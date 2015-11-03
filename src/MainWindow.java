@@ -66,7 +66,8 @@ public class MainWindow extends JFrame {
 				}
 				else
 				{
-					try{
+					try
+					{
 						word = br.readLine();
 					}
 					catch(Exception e)
@@ -107,7 +108,8 @@ public class MainWindow extends JFrame {
 		return characters.size();
 	}
 	
-	public MainWindow() {
+	public MainWindow() 
+	{
 		lettersGuessed = new ArrayList<String>();
 		remainingGuesses = 10;
 		wrongGuesses = "";
@@ -115,7 +117,8 @@ public class MainWindow extends JFrame {
 
 		visible = "";
 
-		for(int i = 0; i < word.length(); ++i) {
+		for(int i = 0; i < word.length(); ++i) 
+		{
 			visible += "_ ";
 		}
 
@@ -140,28 +143,33 @@ public class MainWindow extends JFrame {
 
 		this.add(corePanel, BorderLayout.CENTER);
 		
-		input.addActionListener(new ActionListener() {
-
+		input.addActionListener(new ActionListener() 
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) 
+			{
 				String text = input.getText();
 				
-				if(text.length()  == 1 && text.matches("[a-z]") && !lettersGuessed.contains(text)) {
-					
+				if(text.length()  == 1 && text.matches("[a-z]") && !lettersGuessed.contains(text)) 
+				{
 					boolean guessFound = false;
 					lettersGuessed.add(text);
 					
-					for(int i = 0; i < word.length(); i++) {
-						if(text.charAt(0) == word.charAt(i)) {
+					for(int i = 0; i < word.length(); i++) 
+					{
+						if(text.charAt(0) == word.charAt(i)) 
+						{
 							guessFound = true;
 							
 							String newVisible = "";
-							for(int j = 0; j < visible.length(); j++) {
-								if(j == (i*2)) {
+							for(int j = 0; j < visible.length(); j++) 
+							{
+								if(j == (i*2)) 
+								{
 									newVisible += word.charAt(i);
 								}
-								else {
+								else 
+								{
 									newVisible += visible.charAt(j);
 								}
 							}
@@ -170,25 +178,31 @@ public class MainWindow extends JFrame {
 						}
 					}
 					
-					if(!guessFound) {
-						if(--remainingGuesses >= 1) {
+					if(!guessFound) 
+					{
+						if(--remainingGuesses >= 1) 
+						{
 							status.setText("You have "+remainingGuesses+" guesses remaining");
 							wrongGuesses += text+" ";
 							wrong.setText("Wrong guesses so far: "+wrongGuesses);
 							hf.set();
 						}
-						else {
+						else 
+						{
 							status.setText("You lost: the word was "+word);
 							input.setEnabled(false);
 						}
 					}
-					else {
+					else 
+					{
 						String actualVisible = "";
-						for(int i = 0; i < visible.length(); i+=2) {
+						for(int i = 0; i < visible.length(); i+=2) 
+						{
 							actualVisible += visible.charAt(i);
 						}
 						
-						if(actualVisible.equals(word)) {
+						if(actualVisible.equals(word)) 
+						{
 							status.setText("Congratulations, you have won!");
 							input.setEnabled(false);
 						}
