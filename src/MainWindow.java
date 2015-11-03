@@ -2,6 +2,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,7 +19,26 @@ public class MainWindow extends JFrame {
 	private String wrongGuesses;
 	private String word;
 	private String visible;
+	private Scanner sc;
 
+	public static void main(String[] args) 
+	{
+		int line = (int) (Math.random()*109583);
+		String randomWord = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("wordsEn.txt"));
+			for(int i = 0; i < line; i++)
+				br.readLine();
+			randomWord = br.readLine();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		new MainWindow(randomWord);
+	}
+	
 	public MainWindow(String toGuess) {
 		remainingGuesses = 10;
 		wrongGuesses = "";
@@ -115,9 +138,5 @@ public class MainWindow extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		new MainWindow("cat");
 	}
 }
