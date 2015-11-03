@@ -25,32 +25,93 @@ public class MainWindow extends JFrame {
 
 	public static void main(String[] args) 
 	{
-		new MainWindow(chooseRandomWord());
+		new MainWindow();
 	}
 	
-	public static String chooseRandomWord()
+	public String chooseRandomWord(int d)
 	{
-		//Ian did this part (Guessing every word from English language)
+		int difficulty = d;
 		int line = (int) (Math.random()*109583);
 		String randomWord = "";
-		try {
+		String word = "";
+		
+		try 
+		{
 			BufferedReader br = new BufferedReader(new FileReader("wordsEn.txt"));
+			boolean wordChosen = false;
+			
 			for(int i = 0; i < line; i++)
+			{
 				br.readLine();
-			randomWord = br.readLine();
+			}
+			word = br.readLine();
+			
+			while(!wordChosen)
+			{
+				int characters = getUniqueCharacters(word);
+				if(difficulty == 1 && characters <= 5)
+				{
+					randomWord = word;
+					wordChosen = true;
+				}
+				else if(difficulty == 2 && 5 < characters && characters <= 10)
+				{
+					randomWord = word;
+					wordChosen = true;
+				}
+				else if(difficulty == 3 && 10 < characters)
+				{
+					randomWord = word;
+					wordChosen = true;
+				}
+				else
+				{
+					try{
+						word = br.readLine();
+					}
+					catch(Exception e)
+					{
+						System.out.println("Reached end of File");
+						br.reset();
+						
+						line = (int) (Math.random()*109583);
+						for(int i = 0; i < line; i++)
+						{
+							br.readLine();
+						}
+						word = br.readLine();
+					}
+				}
+			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		
 		return randomWord;
 	}
 	
-	public MainWindow(String toGuess) {
+	public int getUniqueCharacters(String s)
+	{
+		ArrayList<String> characters = new ArrayList<String>();
+		
+		for(int i = 0; i < s.length(); i++)
+		{
+			if(!characters.contains(s.substring(i, i+1)))
+			{
+				characters.add(s.substring(i, i+1));
+			}
+		}
+		
+		return characters.size();
+	}
+	
+	public MainWindow() {
 		lettersGuessed = new ArrayList<String>();
 		remainingGuesses = 10;
 		wrongGuesses = "";
-		word = toGuess;
+		word = chooseRandomWord(3);
 
 		visible = "";
 
@@ -147,6 +208,16 @@ public class MainWindow extends JFrame {
 						actualVisible += visible.charAt(i);
 					}
 					visibleLabel.setText(text);
+					status.setText("Congratulations, you have won!");
+					input.setEnabled(false);
+				}
+				else if(text.equals("CHEAT"))
+				{
+					String actualVisible = "";
+					for(int i = 0; i < visible.length(); i+=2) {
+						actualVisible += visible.charAt(i);
+					}
+					visibleLabel.setText(word);
 					status.setText("Congratulations, you have won!");
 					input.setEnabled(false);
 				}
