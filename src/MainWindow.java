@@ -22,7 +22,12 @@ public class MainWindow extends JFrame {
 	private String visible;
 	private Scanner sc;
 	private ArrayList<String> lettersGuessed;
-
+	
+	private int score1=0;
+	private int score2=0;
+	private int playerMode=1; //0: single player (default), 1: 2-player
+	private String playerStatus = "Player 1";
+	
 	public static void main(String[] args) 
 	{
 		new MainWindow();
@@ -108,6 +113,24 @@ public class MainWindow extends JFrame {
 		return characters.size();
 	}
 	
+	private void adjustScore(boolean correctGuess)
+	{
+		System.out.println("adjusting score");
+		if(correctGuess && playerStatus.equals("Player 1"))
+		{
+			score1++;
+			playerStatus = "Player 2";
+			System.out.println("Player 1 scored, yay");
+			
+		} else if(correctGuess && playerStatus.equals("Player 2"))
+		{
+			score2++;
+			playerStatus = "Player 1";
+			System.out.println("Player 2 scored, yay");
+		}
+		
+	}
+	
 	public MainWindow() 
 	{
 		lettersGuessed = new ArrayList<String>();
@@ -135,8 +158,38 @@ public class MainWindow extends JFrame {
 		southPanel.add(visibleLabel);
 		southPanel.add(input);
 		southPanel.add(wrong);
+		corePanel.add(southPanel, BorderLayout.SOUTH);	
 		
-		corePanel.add(southPanel, BorderLayout.SOUTH);
+		//Craig adding labels here
+//		if(playerMode == 1)
+//		{
+		    final JLabel p1Indicator = new JLabel("    Player 1:", SwingConstants.CENTER );
+  		    final JLabel p1Score = new JLabel("     "+score1);
+		    final JLabel p2Indicator = new JLabel("    Player 2:" , SwingConstants.CENTER );
+		    final JLabel p2Score = new JLabel("     "+score2);
+		    
+		   // final JLabel testerLabel = new JLabel("BLAHBLAH", SwingConstants.CENTER);
+		    
+		    final JLabel nextPlayer = new JLabel(playerStatus + " choose a letter", SwingConstants.CENTER);
+		    
+		    JPanel p1Panel = new JPanel(new GridLayout(2,2));
+		//    JPanel p2Panel = new JPanel(new GridLayout(2,2));
+		
+		   // p1Panel.add(testerLabel);
+		    
+		    p1Panel.add(p1Indicator);
+		    p1Panel.add(p1Score);
+		    
+		    p1Panel.add(p2Indicator);
+		    p1Panel.add(p2Score);
+		    
+		    corePanel.add(nextPlayer, BorderLayout.NORTH);
+		    corePanel.add(p1Panel, BorderLayout.WEST);
+		 //   corePanel.add(p2Panel, BorderLayout.EAST);			
+//		}
+
+
+		
 		
 		final HangmanFigure hf = new HangmanFigure();
 		corePanel.add(hf, BorderLayout.CENTER);
@@ -153,6 +206,7 @@ public class MainWindow extends JFrame {
 				if(text.length()  == 1 && text.matches("[a-z]") && !lettersGuessed.contains(text)) 
 				{
 					boolean guessFound = false;
+					//adjustScore(guessFound);
 					lettersGuessed.add(text);
 					
 					for(int i = 0; i < word.length(); i++) 
@@ -160,6 +214,9 @@ public class MainWindow extends JFrame {
 						if(text.charAt(0) == word.charAt(i)) 
 						{
 							guessFound = true;
+							//adjustScore(guessFound);
+							
+							//if()
 							
 							String newVisible = "";
 							for(int j = 0; j < visible.length(); j++) 
@@ -178,6 +235,11 @@ public class MainWindow extends JFrame {
 						}
 					}
 					
+					adjustScore(guessFound);
+		  		    p1Score.setText("     " + score1);
+		  		    p2Score.setText("     " + score2);
+                    nextPlayer.setText(playerStatus + " choose a letter");
+					
 					if(!guessFound) 
 					{
 						if(--remainingGuesses >= 1) 
@@ -185,7 +247,18 @@ public class MainWindow extends JFrame {
 							status.setText("You have "+remainingGuesses+" guesses remaining");
 							wrongGuesses += text+" ";
 							wrong.setText("Wrong guesses so far: "+wrongGuesses);
+							
+						//	final JLabel status = new JLabel("You have "+remainingGuesses+" remaining", 				
+							
+
+						    
+						   // final JLabel testerLabel = new JLabel("BLAHBLAH", SwingConstants.CENTER);
+						    
+						    
+							
 							hf.set();
+							
+							
 						}
 						else 
 						{
@@ -207,6 +280,10 @@ public class MainWindow extends JFrame {
 							input.setEnabled(false);
 						}
 					}
+					
+					p1Score.setText("     " + score1);
+		  		    p2Score.setText("     " + score2);
+                    nextPlayer.setText(playerStatus + " choose a letter");
 					
 				}
 				//Ian did this(Can't guess letter you've already guessed)
