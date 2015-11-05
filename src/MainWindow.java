@@ -131,12 +131,22 @@ public class MainWindow extends JFrame
 			System.out.println("Player 1 scored, yay");
 			
 		} 
+		else if(playerStatus.equals("Player 1"))
+		{
+			System.out.println("Player 1 guessed wrong");
+			playerStatus = "Player 2";
+		}
 		else if(correctGuess && playerStatus.equals("Player 2"))
 		{
 			score2++;
 			playerStatus = "Player 1";
 			System.out.println("Player 2 scored, yay");
 		}	
+		else if(playerStatus.equals("Player 2"))
+		{
+			System.out.println("Player 2 guessed wrong");
+			playerStatus = "Player 1";
+		}
 	}
 	
 	public MainWindow(OptionWindow ow) 
@@ -317,7 +327,7 @@ public class MainWindow extends JFrame
 						}
 					}
 					
-					if(playerMode ==2)
+					if(playerMode == 2)
 					{
 					    p1Score.setText("     " + score1);
 		  		        p2Score.setText("     " + score2);
