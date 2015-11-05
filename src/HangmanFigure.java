@@ -26,7 +26,18 @@ public class HangmanFigure extends JPanel
 	
 	public void paintComponent(Graphics g) 
 	{
-		g.setColor(Color.BLACK);
+		g.setColor(Color.ORANGE.darker());
+		((Graphics2D) g).setStroke(new BasicStroke(10));
+		try
+		{
+            image = ImageIO.read(new File("background.png"));
+            image = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+		    g.drawImage(image, 0, 0, null);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
 		//File headImage = new File("head.jpg");
 		
