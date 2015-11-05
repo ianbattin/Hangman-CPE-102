@@ -194,7 +194,7 @@ public class MainWindow extends JFrame
 		
 		input.addActionListener(new ActionListener() 
 		{
-			@Override
+		
 			public void actionPerformed(ActionEvent e) 
 			{
 				String text = input.getText();
@@ -249,11 +249,17 @@ public class MainWindow extends JFrame
 							wrong.setText("Wrong guesses so far: "+wrongGuesses);
 							hf.set();														
 						}
-						else 
+						else if(playerMode == 2)
 						{
 							status.setText("Both of you suck: the word was "+word);
 							input.setEnabled(false);
 						}
+						else
+						{
+							status.setText("Wrong guess - You lose. The word was " + word);
+							input.setEnabled(false);
+						}
+							
 					}
 					else 
 					{
@@ -265,7 +271,7 @@ public class MainWindow extends JFrame
 						
 						if(actualVisible.equals(word)) 
 						{
-							if(playerMode == 1)
+							if(playerMode == 2)
 							{
 								if(score1>score2)
 								{

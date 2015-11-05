@@ -97,6 +97,7 @@ public class OptionWindow extends JFrame implements ActionListener
 		else if(selected.equals("Start") && difficulty != 0 && playerAmount != 0)
 		{
 			new MainWindow(this);
+			this.dispose();
 		}
 		else
 		{
