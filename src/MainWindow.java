@@ -98,6 +98,10 @@ public class MainWindow extends JFrame {
 		return randomWord;
 	}
 	
+	/*@param s input string
+	 * 
+	 * Returns the number of unique characters in a word
+	 */
 	public int getUniqueCharacters(String s)
 	{
 		ArrayList<String> characters = new ArrayList<String>();
@@ -113,6 +117,7 @@ public class MainWindow extends JFrame {
 		return characters.size();
 	}
 	
+	//updates score after each guess, and switches player turns
 	private void adjustScore(boolean correctGuess)
 	{
 		System.out.println("adjusting score");
@@ -122,13 +127,13 @@ public class MainWindow extends JFrame {
 			playerStatus = "Player 2";
 			System.out.println("Player 1 scored, yay");
 			
-		} else if(correctGuess && playerStatus.equals("Player 2"))
+		} 
+		else if(correctGuess && playerStatus.equals("Player 2"))
 		{
 			score2++;
 			playerStatus = "Player 1";
 			System.out.println("Player 2 scored, yay");
-		}
-		
+		}	
 	}
 	
 	public MainWindow() 
@@ -160,23 +165,16 @@ public class MainWindow extends JFrame {
 		southPanel.add(wrong);
 		corePanel.add(southPanel, BorderLayout.SOUTH);	
 		
-		//Craig adding labels here
-//		if(playerMode == 1)
-//		{
-		    final JLabel p1Indicator = new JLabel("    Player 1:", SwingConstants.CENTER );
-  		    final JLabel p1Score = new JLabel("     "+score1);
-		    final JLabel p2Indicator = new JLabel("    Player 2:" , SwingConstants.CENTER );
-		    final JLabel p2Score = new JLabel("     "+score2);
-		    
-		   // final JLabel testerLabel = new JLabel("BLAHBLAH", SwingConstants.CENTER);
-		    
-		    final JLabel nextPlayer = new JLabel(playerStatus + " choose a letter", SwingConstants.CENTER);
-		    
-		    JPanel p1Panel = new JPanel(new GridLayout(2,2));
-		//    JPanel p2Panel = new JPanel(new GridLayout(2,2));
+		final JLabel p1Indicator = new JLabel("    Player 1:", SwingConstants.CENTER );
+  	    final JLabel p1Score = new JLabel("     "+score1);
+		final JLabel p2Indicator = new JLabel("    Player 2:" , SwingConstants.CENTER );
+		final JLabel p2Score = new JLabel("     "+score2);		    
+		final JLabel nextPlayer = new JLabel(playerStatus + " choose a letter", SwingConstants.CENTER);		
+		JPanel p1Panel = new JPanel(new GridLayout(2,2));		
 		
-		   // p1Panel.add(testerLabel);
-		    
+		//Craig adding labels here
+		if(playerMode == 1)
+		{
 		    p1Panel.add(p1Indicator);
 		    p1Panel.add(p1Score);
 		    
@@ -185,11 +183,7 @@ public class MainWindow extends JFrame {
 		    
 		    corePanel.add(nextPlayer, BorderLayout.NORTH);
 		    corePanel.add(p1Panel, BorderLayout.WEST);
-		 //   corePanel.add(p2Panel, BorderLayout.EAST);			
-//		}
-
-
-		
+		}
 		
 		final HangmanFigure hf = new HangmanFigure();
 		corePanel.add(hf, BorderLayout.CENTER);
@@ -236,9 +230,13 @@ public class MainWindow extends JFrame {
 					}
 					
 					adjustScore(guessFound);
-		  		    p1Score.setText("     " + score1);
-		  		    p2Score.setText("     " + score2);
-                    nextPlayer.setText(playerStatus + " choose a letter");
+					if(playerMode == 1)
+					{
+						p1Score.setText("     " + score1);
+		  		        p2Score.setText("     " + score2);
+                        nextPlayer.setText(playerStatus + " choose a letter");
+					}
+		  		    
 					
 					if(!guessFound) 
 					{
@@ -247,22 +245,11 @@ public class MainWindow extends JFrame {
 							status.setText("You have "+remainingGuesses+" guesses remaining");
 							wrongGuesses += text+" ";
 							wrong.setText("Wrong guesses so far: "+wrongGuesses);
-							
-						//	final JLabel status = new JLabel("You have "+remainingGuesses+" remaining", 				
-							
-
-						    
-						   // final JLabel testerLabel = new JLabel("BLAHBLAH", SwingConstants.CENTER);
-						    
-						    
-							
-							hf.set();
-							
-							
+							hf.set();														
 						}
 						else 
 						{
-							status.setText("You lost: the word was "+word);
+							status.setText("Both of you suck: the word was "+word);
 							input.setEnabled(false);
 						}
 					}
@@ -276,15 +263,31 @@ public class MainWindow extends JFrame {
 						
 						if(actualVisible.equals(word)) 
 						{
-							status.setText("Congratulations, you have won!");
+							if(playerMode == 1)
+							{
+								if(score1>score2)
+								{
+									status.setText("Player 1 wins!");
+								}
+								else
+								{
+									status.setText("Player 2 wins!");
+								}	
+							}
+							else
+							{
+							    status.setText("Congratulations, you have won!");
+							}
 							input.setEnabled(false);
 						}
 					}
 					
-					p1Score.setText("     " + score1);
-		  		    p2Score.setText("     " + score2);
-                    nextPlayer.setText(playerStatus + " choose a letter");
-					
+					if(playerMode ==1)
+					{
+					    p1Score.setText("     " + score1);
+		  		        p2Score.setText("     " + score2);
+                        nextPlayer.setText(playerStatus + " choose a letter");
+					}
 				}
 				//Ian did this(Can't guess letter you've already guessed)
 				else if(lettersGuessed.contains(text))
