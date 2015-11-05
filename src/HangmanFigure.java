@@ -37,25 +37,25 @@ public class HangmanFigure extends JPanel
 		// base
 		if(guesses > 0) 
 		{
-			g.drawLine(1, 299, 299, 299);
+			g.drawLine(1, 290, 290, 290);
 		}
 		
 		// right wall
 		if(guesses > 1) 
 		{
-			g.drawLine(299, 299, 299, 1);
+			g.drawLine(290, 290, 290, 10);
 		}
 		
 		// top line
 		if(guesses > 2) 
 		{
-			g.drawLine(150, 1, 299, 1);
+			g.drawLine(150, 10, 290, 10);
 		}
 		
 		// hanging line
 		if(guesses > 3) 
 		{
-			g.drawLine(150, 1, 150, 70);
+			g.drawLine(150, 10, 150, 70);
 		}
 		
 		// face
