@@ -252,7 +252,7 @@ public class MainWindow extends JFrame
 					}
 					
 					adjustScore(guessFound);
-					if(playerMode == 1)
+					if(playerMode == 2)
 					{
 						p1Score.setText("     " + score1);
 		  		        p2Score.setText("     " + score2);
@@ -317,7 +317,7 @@ public class MainWindow extends JFrame
 						}
 					}
 					
-					if(playerMode ==1)
+					if(playerMode ==2)
 					{
 					    p1Score.setText("     " + score1);
 		  		        p2Score.setText("     " + score2);
