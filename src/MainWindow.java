@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class MainWindow extends JFrame
 	private int playerMode; //1: single player (default), 2: 2-player
 	private String playerStatus = "Player 1";
 	
+	private MainWindow win;
 	public static void main(String[] args) 
 	{
 		new OptionWindow();
@@ -152,8 +154,13 @@ public class MainWindow extends JFrame
 			visible += "_ ";
 		}
 
-		JPanel corePanel = new JPanel();
+		final JPanel corePanel = new JPanel();
 		corePanel.setLayout(new BorderLayout());
+		
+		final JButton new_game = new JButton("New Game?");
+		add(new_game,BorderLayout.NORTH);
+		new_game.setVisible(false);		
+		
 		
 		final JLabel status = new JLabel("You have "+remainingGuesses+" remaining", SwingConstants.CENTER);
 		final JLabel wrong = new JLabel("Wrong guesses so far: "+wrongGuesses);
@@ -191,6 +198,19 @@ public class MainWindow extends JFrame
 		corePanel.add(hf, BorderLayout.CENTER);
 
 		this.add(corePanel, BorderLayout.CENTER);
+		
+		
+		new_game.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String s = e.getActionCommand();
+				if (s.equals("New Game?")){
+					new OptionWindow();	
+					closeWindow();
+				} 
+			}			
+		});
+		
+		
 		
 		input.addActionListener(new ActionListener() 
 		{
@@ -252,13 +272,16 @@ public class MainWindow extends JFrame
 						else if(playerMode == 2)
 						{
 							status.setText("Both of you suck: the word was "+word);
+							new_game.setVisible(true);
 							input.setEnabled(false);
 						}
 						else
 						{
 							status.setText("Wrong guess - You lose. The word was " + word);
+							new_game.setVisible(true);
 							input.setEnabled(false);
 						}
+						
 							
 					}
 					else 
@@ -286,6 +309,7 @@ public class MainWindow extends JFrame
 							{
 							    status.setText("Congratulations, you have won!");
 							}
+							new_game.setVisible(true);
 							input.setEnabled(false);
 						}
 					}
@@ -311,6 +335,7 @@ public class MainWindow extends JFrame
 					}
 					visibleLabel.setText(text);
 					status.setText("Congratulations, you have won!");
+					new_game.setVisible(true);
 					input.setEnabled(false);
 				}
 				else if(text.equals("CHEAT"))
@@ -321,6 +346,7 @@ public class MainWindow extends JFrame
 					}
 					visibleLabel.setText(word);
 					status.setText("Congratulations, you have won!");
+					new_game.setVisible(true);
 					input.setEnabled(false);
 				}
 				else if(text.length() == word.length())
@@ -331,12 +357,14 @@ public class MainWindow extends JFrame
 					}
 					remainingGuesses = 0;
 					status.setText("Wrong guess - You lose. The word was " + word);
+					new_game.setVisible(true);
 					input.setEnabled(false);
 				}
 				else
 					status.setText("Invalid Input - Try again!");
 				
 				input.setText("");
+				
 			}
 			
 		});
@@ -345,5 +373,8 @@ public class MainWindow extends JFrame
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+	}
+	public void closeWindow(){
+		this.dispose();
 	}
 }

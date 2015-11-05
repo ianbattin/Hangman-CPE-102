@@ -65,7 +65,6 @@ public class OptionWindow extends JFrame implements ActionListener
 		this.setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		String selected = e.getActionCommand();
