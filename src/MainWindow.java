@@ -145,7 +145,10 @@ public class MainWindow extends JFrame
 		lettersGuessed = new ArrayList<String>();
 		remainingGuesses = 10;
 		wrongGuesses = "";
-		word = chooseRandomWord(ow.getDifficulty());
+		if(ow.getCustomWord() != null)
+			word = ow.getCustomWord();
+		else
+			word = chooseRandomWord(ow.getDifficulty());
 
 		visible = "";
 

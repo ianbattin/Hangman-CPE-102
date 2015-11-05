@@ -16,6 +16,9 @@ public class OptionWindow extends JFrame implements ActionListener
 	private int difficulty;
 	final JLabel difficultyButton;
 	final JLabel players;
+	final JLabel customWordLabel;
+	final JTextField wordField;
+	private String customWord;
 	private int playerAmount;
 	
 	public OptionWindow()
@@ -39,8 +42,28 @@ public class OptionWindow extends JFrame implements ActionListener
 		two.addActionListener(this);
 		start.addActionListener(this);
 		
+		customWordLabel = new JLabel("Want to use a Custom Word? Type it here and press Enter:", SwingConstants.CENTER);
+		wordField = new JTextField();
+		wordField.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e) 
+					{
+						customWord = wordField.getText().toLowerCase();
+						if(customWord.contains(" "))
+						{
+							customWordLabel.setText("No spaces allowed");
+							customWord = null;
+						}
+						else
+							customWordLabel.setText("Your word will be: " + customWord);
+					}
+			
+		});
+		
 		JPanel westPanel = new JPanel(new GridLayout(4, 2));
 		JPanel eastPanel = new JPanel(new GridLayout(4, 1));
+		JPanel southPanel = new JPanel(new GridLayout(2, 1));
 		
 		westPanel.add(difficultyButton);
 		westPanel.add(easy);
@@ -52,12 +75,16 @@ public class OptionWindow extends JFrame implements ActionListener
 		eastPanel.add(two);
 		eastPanel.add(start);
 		
+		southPanel.add(customWordLabel);
+		southPanel.add(wordField);
+		
 		corePanel.add(westPanel, BorderLayout.WEST);	
-		corePanel.add(eastPanel, BorderLayout.EAST);	
+		corePanel.add(eastPanel, BorderLayout.EAST);
+		corePanel.add(southPanel, BorderLayout.SOUTH);
 
 		this.add(corePanel, BorderLayout.CENTER);
 		
-		Dimension d = new Dimension(300, 300);
+		Dimension d = new Dimension(400, 400);
 		this.setPreferredSize(d);
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -113,5 +140,10 @@ public class OptionWindow extends JFrame implements ActionListener
 	public int getPlayers()
 	{
 		return playerAmount;
+	}
+	
+	public String getCustomWord()
+	{
+		return customWord;
 	}
 }
