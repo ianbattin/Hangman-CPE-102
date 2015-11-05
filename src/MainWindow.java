@@ -249,7 +249,7 @@ public class MainWindow extends JFrame {
 						}
 						else 
 						{
-							status.setText("Both of you suck: the word was "+word);
+							status.setText("Nobody wins: the word was "+word);
 							input.setEnabled(false);
 						}
 					}

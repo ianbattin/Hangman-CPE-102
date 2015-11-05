@@ -1,13 +1,27 @@
-import java.awt.Color;
+import java.awt.*;
+import java.lang.Object;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
+import java.awt.image.BufferedImage;
+import java.util.*;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import java.io.*;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 
 public class HangmanFigure extends JPanel 
 {
 	private int guesses;
-
+	private Image head= null;//Image.IO.read(new File("head.jpg"));
+	private Image image= null;
+	private File imageFile;
+	
 	public HangmanFigure() 
 	{
 		super();
@@ -19,6 +33,19 @@ public class HangmanFigure extends JPanel
 	public void paintComponent(Graphics g) 
 	{
 		g.setColor(Color.BLACK);
+		
+		//File headImage = new File("head.jpg");
+		
+		try
+		{		
+		    head = ImageIO.read(new File("whole body.jpg"));
+		}
+		catch(Exception e)
+		{
+			//throw Exception("BLAH");
+		}
+
+		
 		
 		// base
 		if(guesses > 0) 
@@ -47,38 +74,89 @@ public class HangmanFigure extends JPanel
 		// face
 		if(guesses > 4) 
 		{
-			g.drawOval(150-25, 70, 50, 50);
+		   try
+		   {
+               image = ImageIO.read(new File("head.png"));
+               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+		       g.drawImage(image,125-12,40, null);
+		   }
+		   catch(Exception e)
+		   {
+			   //throw new Exception("head file not found");    //this line doesn't work
+		   }	
+	
 		}
 		
 		// body
 		if(guesses > 5) 
 		{
-			g.drawLine(150, 120, 150, 200);
-		}
-		
-		// left hand
-		if(guesses > 6) 
-		{
-			g.drawLine(150, 150, 110, 140);
+			   try
+			   {
+	               image = ImageIO.read(new File("torso.png"));
+	               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+			       g.drawImage(image,125-12,40, null);
+			   }
+			   catch(Exception e)
+			   {
+			   }	
 		}
 		
 		// right hand
+		if(guesses > 6) 
+		{
+			   try
+			   {
+	               image = ImageIO.read(new File("right_arm.png"));
+	               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+			       g.drawImage(image,125-12,40, null);
+			   }
+			   catch(Exception e)
+			   {
+			   }	
+		}
+		
+		// left hand
 		if(guesses > 7) 
 		{
-			g.drawLine(150, 150, 190, 140);
+			   try
+			   {
+	               image = ImageIO.read(new File("left_arm.png"));
+	               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+			       g.drawImage(image,125-12,40, null);
+			   }
+			   catch(Exception e)
+			   {
+			   }	
 		}
 		
 		// left leg
 		if(guesses > 8) 
 		{
-			g.drawLine(150, 200, 120, 250);
+			   try
+			   {
+	               image = ImageIO.read(new File("right_leg.png"));
+	               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+			       g.drawImage(image,125-12,40, null);
+			   }
+			   catch(Exception e)
+			   {
+			   }	
 		}
 		
 		// right leg
 		if(guesses > 9) 
 		{
-			g.drawLine(150, 200, 180, 250);
+			   try
+			   {
+	               image = ImageIO.read(new File("whole_body.png"));
+	               image = image.getScaledInstance(75, 250, Image.SCALE_SMOOTH);
+			       g.drawImage(image,125-12,40, null);
+			   }
+			   catch(Exception e)
+			   {
+			   }	
 		}
+		
 	}
 	
 	public void set() 
