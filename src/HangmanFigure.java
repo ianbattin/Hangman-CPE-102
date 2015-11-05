@@ -2,15 +2,11 @@ import java.awt.*;
 import java.lang.Object;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.*;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import java.io.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -18,9 +14,7 @@ import java.io.IOException;
 public class HangmanFigure extends JPanel 
 {
 	private int guesses;
-	private Image head= null;//Image.IO.read(new File("head.jpg"));
 	private Image image= null;
-	private File imageFile;
 	
 	public HangmanFigure() 
 	{
@@ -36,14 +30,7 @@ public class HangmanFigure extends JPanel
 		
 		//File headImage = new File("head.jpg");
 		
-		try
-		{		
-		    head = ImageIO.read(new File("whole body.jpg"));
-		}
-		catch(Exception e)
-		{
-			//throw Exception("BLAH");
-		}
+
 
 		
 		
