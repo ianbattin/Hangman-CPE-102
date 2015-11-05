@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame 
+{
 	
 	private int remainingGuesses;
 	private String wrongGuesses;
@@ -25,12 +26,12 @@ public class MainWindow extends JFrame {
 	
 	private int score1=0;
 	private int score2=0;
-	private int playerMode=1; //0: single player (default), 1: 2-player
+	private int playerMode; //1: single player (default), 2: 2-player
 	private String playerStatus = "Player 1";
 	
 	public static void main(String[] args) 
 	{
-		new MainWindow();
+		new OptionWindow();
 	}
 	
 	public String chooseRandomWord(int d)
@@ -136,12 +137,13 @@ public class MainWindow extends JFrame {
 		}	
 	}
 	
-	public MainWindow() 
+	public MainWindow(OptionWindow ow) 
 	{
+		playerMode = ow.getPlayers();
 		lettersGuessed = new ArrayList<String>();
 		remainingGuesses = 10;
 		wrongGuesses = "";
-		word = chooseRandomWord(3);
+		word = chooseRandomWord(ow.getDifficulty());
 
 		visible = "";
 
@@ -173,7 +175,7 @@ public class MainWindow extends JFrame {
 		JPanel p1Panel = new JPanel(new GridLayout(2,2));		
 		
 		//Craig adding labels here
-		if(playerMode == 1)
+		if(playerMode == 2)
 		{
 		    p1Panel.add(p1Indicator);
 		    p1Panel.add(p1Score);
